@@ -16,6 +16,8 @@ After a short learning phase, \fBz\fR will take you to the most 'frecent'
 directory that matches ALL of the regexes given on the command line, in order.
 
 For example, \fBz foo bar\fR would match \fB/foo/bar\fR but not \fB/bar/foo\fR.
+
+The target directory is \fBecho\fRed on navigation.
 .SH
 OPTIONS
 .TP
@@ -24,6 +26,9 @@ restrict matches to subdirectories of the current directory
 .TP
 \fB\-e\fR
 echo the best match, don't cd
+.TP
+\fB\-E\fR
+cd without echoing
 .TP
 \fB\-h\fR
 show a brief help message

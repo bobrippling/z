@@ -118,12 +118,14 @@ _z() {
 
     else
         # list/go
-        local echo fnd last list opt typ
+        local echo_only echo fnd last list opt typ
+        echo=1
         while [ "$1" ]; do case "$1" in
             --) while [ "$1" ]; do shift; fnd="$fnd${fnd:+ }$1";done;;
             -*) opt=${1:1}; while [ "$opt" ]; do case ${opt:0:1} in
                     c) fnd="^$PWD $fnd";;
-                    e) echo=1;;
+                    e) echo_only=1;;
+                    E) echo=0;;
                     h) echo "${_Z_CMD:-z} [-cehlrtx] args" >&2; return;;
                     l) list=1;;
                     r) typ="rank";;
@@ -216,7 +218,14 @@ _z() {
 
         if [ "$?" -eq 0 ]; then
           if [ "$cd" ]; then
-            if [ "$echo" ]; then echo "$cd"; else builtin cd "$cd"; fi
+            if [ "$echo_only" ]; then
+                echo "$cd"
+            else
+                builtin cd "$cd" || return $?
+                if [ "$echo" -ne 0 ]; then
+                    echo "$cd"
+                fi
+            fi
           fi
         else
           return $?
